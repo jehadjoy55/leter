@@ -3,134 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>প্রিয় মাহনূর</title>
+    <title>তোমার চিঠি</title>
     <style>
-        /* Body styling for mobile scrolling */
-        body {
-            font-family: 'SolaimanLipi', sans-serif;
-            background: linear-gradient(to bottom right, #ff9a9e, #fad0c4);
+        /* General Reset */
+        * {
             margin: 0;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        #scroll-container {
-            max-height: 100vh;
-            overflow-y: auto;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            padding: 20px;
+            padding: 0;
             box-sizing: border-box;
         }
 
-        #poem-container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-y: hidden;
+        }
+
+        /* Letter Box Styling */
+        .letter-box {
+            position: relative;
             width: 90%;
-            max-width: 500px;
-            animation: fadeIn 3s ease-in-out;
-        }
-
-        h1 {
-            color: #ff5e73;
-            font-size: 2em;
-            margin: 0;
-        }
-
-        p {
-            font-size: 1.2em;
-            color: #333;
-            line-height: 1.6em;
-            margin: 20px 0;
-        }
-
-        /* Heart animation */
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        @keyframes floatHeart {
-            0% { opacity: 0; transform: translateY(0); }
-            50% { opacity: 1; }
-            100% { opacity: 0; transform: translateY(-100px); }
-        }
-
-        /* Floating hearts */
-        .heart {
-            position: absolute;
-            color: #ff5e73;
-            font-size: 1.5em;
-            animation: floatHeart 4s infinite;
-        }
-        .heart:nth-child(1) { top: 80%; left: 30%; animation-delay: 0s; }
-        .heart:nth-child(2) { top: 85%; left: 60%; animation-delay: 1s; }
-        .heart:nth-child(3) { top: 90%; left: 45%; animation-delay: 2s; }
-        .heart:nth-child(4) { top: 88%; left: 20%; animation-delay: 3s; }
-
-        /* Play button styling */
-        #play-button {
-            margin-top: 15px;
-            padding: 10px 20px;
-            font-size: 1em;
-            color: #ffffff;
-            background-color: #ff5e73;
-            border: none;
-            border-radius: 8px;
+            max-width: 400px;
+            background: #fff;
+            border: 2px solid #ff6f91;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transition: transform 0.5s ease, box-shadow 0.3s ease;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease;
         }
-        #play-button:hover {
-            background-color: #ff4a63;
+
+        .letter-box:hover {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Love Tape Styling */
+        .love-tape {
+            position: absolute;
+            width: 70px;
+            height: 30px;
+            background: #ff6f91;
+            border-radius: 5px;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+            transform: rotate(-15deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Georgia', serif;
+            font-size: 0.9rem;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .love-tape:nth-child(1) {
+            top: -15px;
+            left: 20%;
+        }
+
+        .love-tape:nth-child(2) {
+            top: -15px;
+            right: 20%;
+            transform: rotate(15deg);
+        }
+
+        .love-tape span {
+            z-index: 2;
+        }
+
+        /* Letter Content Styling */
+        .letter-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 20px;
+            transform: translateY(100%);
+            padding: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #333;
+            overflow-y: auto;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .letter-content h2 {
+            font-size: 1.8rem;
+            color: #ff6f91;
+            margin-bottom: 10px;
+        }
+
+        .letter-content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+            color: #555;
+            text-align: justify;
+        }
+
+        /* Opened State */
+        .letter-box.opened {
+            transform: translateY(-10px);
+        }
+
+        .letter-box.opened .letter-content {
+            transform: translateY(0);
+        }
+
+        /* Scroll Indicator */
+        .letter-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .letter-content::-webkit-scrollbar-thumb {
+            background: #ff6f91;
+            border-radius: 10px;
+        }
+
+        .letter-content::-webkit-scrollbar-track {
+            background: #f0f0f0;
         }
     </style>
 </head>
 <body>
-    <div id="scroll-container">
-        <div id="poem-container">
-            <h1>প্রিয় মাহু,</h1>
-            <p>তোমার মধুর হাসি আমার হৃদয়ে অমৃতের মতো, <br>
-            প্রতিটি স্বপ্নে তুমি, প্রতি নিশ্বাসে তুমি।<br>
-            রাতের নির্জনে তোমার স্মৃতির ছোঁয়ায়,<br>
-            আমার মন সিক্ত হয় ভালোবাসার মায়ায়।<br><br>
-            চিরকাল শুধু তোমার জন্য, <br>
-            এই হৃদয় থাকবে অপেক্ষায়, <br>
-            সীমাহীন ভালোবাসায় চিরন্তন অঙ্গীকার।<br><br>
-            তোমার জন্যই, প্রিয় মাহনূর। ❤️</p>
-            <!-- Play Music Button -->
-            <button id="play-button" onclick="toggleMusic()">🎶 Play Music</button>
+    <!-- Letter Box -->
+    <div class="letter-box" id="letterBox">
+        <!-- Love Tape -->
+        <div class="love-tape"><span>❤️</span></div>
+        <div class="love-tape"><span>LOVE</span></div>
+
+        <!-- Hidden Letter Content -->
+        <div class="letter-content">
+            <h2>তোমার জন্য একটি চিঠি</h2>
+            <p>
+                প্রিয়তমা,<br><br>
+                যখন রাত নেমে আসে, চাঁদের মিষ্টি আলোয় তোমার মুখখানি ভেসে ওঠে।<br>
+                আমার হৃদয় প্রতিদিন তোমার জন্য অপেক্ষা করে।<br><br>
+                দূরত্ব যতই থাকুক না কেন, তোমার প্রতি আমার ভালোবাসা কোনোদিনও কমবে না।<br>
+                তুমি আমার জীবনের সব কিছু।<br><br>
+                প্রতিটি শব্দ তোমার মনের গভীরে পৌঁছাক।<br>
+                এই চিঠি তোমার প্রতি আমার অন্তহীন ভালোবাসার প্রকাশ।<br><br>
+                ভালো থেকো, কারণ তোমার হাসিই আমার পৃথিবী।<br><br>
+                চিরকাল তোমার,<br>
+                জয় ❤️
+            </p>
         </div>
     </div>
 
-    <!-- Floating hearts for animation -->
-    <div class="heart">❤️</div>
-    <div class="heart">❤️</div>
-    <div class="heart">❤️</div>
-    <div class="heart">❤️</div>
-
-    <!-- Audio Element -->
-    <audio id="background-music" src="iloveu.mp3" loop></audio>
-
     <script>
-        const music = document.getElementById('background-music');
-        const playButton = document.getElementById('play-button');
-
-        function toggleMusic() {
-            if (music.paused) {
-                music.play();
-                playButton.textContent = '⏸ Pause Music';
-            } else {
-                music.pause();
-                playButton.textContent = '🎶 Play Music';
-            }
+        // Function to open the letter
+        function openLetter() {
+            const letterBox = document.getElementById('letterBox');
+            letterBox.classList.toggle('opened');
         }
+
+        // Attach the event listener
+        document.getElementById('letterBox').addEventListener('click', openLetter);
     </script>
 </body>
 </html>
