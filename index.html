@@ -14,196 +14,181 @@
 
         body {
             font-family: 'Georgia', serif;
-            background-color: #f8f8f8;
+            background-color: #f3f4f6;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden;
-            padding: 0 10px;
+            padding: 20px;
+            background: #fce4d6;
         }
 
-        /* Full Page Envelope */
+        /* Envelope Container */
         .envelope-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: relative;
+            width: 300px;
+            height: 300px;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #fce4d6;
-            transition: background-color 0.6s ease;
-            z-index: 100;
-            overflow: hidden;
         }
 
+        /* Envelope Design */
         .envelope {
             position: relative;
-            width: 450px;
-            height: 280px;
-            background-color: #fff;
-            border: 2px solid #f7b7a3;
-            border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 300px;
+            height: 240px;
+            background: #ffc0cb;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            transform: translateY(0);
+            transition: transform 0.6s ease;
             cursor: pointer;
-            transform: rotate(0deg);
-            transition: all 1s ease;
         }
 
-        /* Envelope Flap */
-        .envelope .flap {
+        /* Envelope Flap (Triangle) */
+        .flap {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, #ff6f91, #ff9a8b);
-            transform-origin: top;
-            transition: transform 1s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            height: 50%;
+            background: #ff99a2;
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            transition: transform 0.6s ease;
+            transform-origin: top center;
         }
 
-        /* Envelope Fold Lines */
-        .envelope .flap:before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: rgba(0, 0, 0, 0.1);
-            transform: rotate(-2deg);
-        }
-
-        /* Envelope Corner Details */
-        .envelope .corner-top-left,
-        .envelope .corner-top-right {
-            position: absolute;
-            top: 0;
-            width: 40px;
-            height: 40px;
-            background-color: #fff;
-            z-index: 1;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        .envelope .corner-top-left {
-            left: 0;
-            border-top-left-radius: 10px;
-        }
-
-        .envelope .corner-top-right {
-            right: 0;
-            border-top-right-radius: 10px;
-        }
-
-        /* Heart Logo */
+        /* Heart Icon */
         .heart {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 70px;
-            height: 70px;
-            background-color: #ff6f91;
+            width: 80px;
+            height: 80px;
+            background-color: #ff4d6d;
             clip-path: polygon(50% 0%, 0% 30%, 25% 100%, 50% 85%, 75% 100%, 100% 30%);
-            cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s ease;
+            z-index: 10;
+
+            /* Rotating Heart Animation */
+            animation: rotateHeart 2s infinite ease-in-out;
         }
 
-        .heart:hover {
-            transform: translate(-50%, -50%) scale(1.2);
-            background-color: #ff9a8b;
+        @keyframes rotateHeart {
+            0% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+            25% {
+                transform: translate(-50%, -50%) scale(1.1) rotate(10deg);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+            75% {
+                transform: translate(-50%, -50%) scale(1.1) rotate(-10deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
         }
 
-        /* Two Lines Under Heart */
-        .lines {
-            position: absolute;
-            bottom: -20px; /* Position lines under the heart */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-        }
-
-        .line {
-            width: 40px;
-            height: 3px;
-            background-color: #ff6f91;
-            border-radius: 2px;
-        }
-
-        /* Full Page Letter */
+        /* Letter Content */
         .letter {
             position: absolute;
-            top: 120%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 400px;
+            width: 85%;
+            max-width: 260px;
             background-color: #fff;
-            padding: 30px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            font-size: 1.1rem;
+            padding: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            font-size: 1rem;
             color: #333;
-            line-height: 1.8;
+            line-height: 1.6;
             text-align: center;
             opacity: 0;
+            transform: translateY(50%);
             transition: opacity 1s ease, transform 1s ease;
+            font-family: 'Times New Roman', serif;
+            z-index: 100;
         }
 
         .letter h2 {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             color: #ff6f91;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+
+            /* Adding fade-in animation for the heading */
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         .letter p {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
+            color: #4a4a4a;
         }
 
-        /* Open Envelope Animation */
+        /* Envelope Opening Animation */
+        .envelope.opened {
+            transform: translateY(-100%);
+        }
+
         .envelope.opened .flap {
-            transform: rotateX(180deg);
+            transform: rotateX(-180deg);
         }
 
         .envelope.opened ~ .letter {
             opacity: 1;
-            transform: translateX(-50%) translateY(-150%);
+            transform: translateY(0);
         }
 
-        /* Close Envelope and Page */
+        /* Close Button */
         .close-button {
             position: absolute;
-            top: 30px;
-            right: 30px;
+            top: 10px;
+            right: 10px;
             background: #ff6f91;
             color: white;
             border: none;
-            border-radius: 5px;
-            padding: 10px;
+            border-radius: 8px;
+            padding: 8px 12px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease;
         }
 
         .close-button:hover {
-            background: #ff8b92;
+            background: #ff9a8b;
         }
 
         /* Responsive Styles */
         @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .envelope-container {
+                width: 90%;
+                height: 280px;
+            }
+
             .envelope {
-                width: 80%;
+                width: 90%;
                 height: 200px;
+            }
+
+            .flap {
+                height: 40%;
             }
 
             .heart {
@@ -212,30 +197,36 @@
             }
 
             .letter {
-                width: 80%;
-                max-width: 350px;
+                padding: 15px;
+                font-size: 0.9rem;
+                line-height: 1.4;
+            }
+
+            .letter h2 {
+                font-size: 1.2rem;
+            }
+
+            .letter p {
+                font-size: 0.85rem;
+            }
+
+            .close-button {
+                padding: 6px 10px;
+                font-size: 0.75rem;
             }
         }
-
     </style>
 </head>
 <body>
 
     <div class="envelope-container">
-        <!-- Envelope Structure -->
-        <div class="envelope">
+        <!-- Envelope -->
+        <div class="envelope" id="envelope">
             <div class="flap"></div>
-            <div class="corner-top-left"></div>
-            <div class="corner-top-right"></div>
             <div class="heart" id="heart"></div>
-            <!-- Two lines under the heart -->
-            <div class="lines">
-                <div class="line"></div>
-                <div class="line"></div>
-            </div>
         </div>
 
-        <!-- Letter Content -->
+        <!-- Letter -->
         <div class="letter" id="letter">
             <h2>তোমার জন্য একটি চিঠি</h2>
             <p>
@@ -252,19 +243,19 @@
 
     <script>
         const heart = document.getElementById('heart');
-        const envelope = document.querySelector('.envelope');
+        const envelope = document.getElementById('envelope');
         const letter = document.getElementById('letter');
 
-        // Open the envelope when the heart is clicked
+        // Open envelope when heart is clicked
         heart.addEventListener('click', () => {
             envelope.classList.add('opened');
         });
 
-        // Close the envelope and return to the original state
+        // Close envelope and letter
         function closeEnvelope() {
             envelope.classList.remove('opened');
             letter.style.opacity = '0';
-            letter.style.transform = 'translateX(-50%) translateY(110%)';
+            letter.style.transform = 'translateY(50%)';
         }
     </script>
 </body>
