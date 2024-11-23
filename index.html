@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>তোমার চিঠি</title>
+    <title>তোমার জন্য একটি চিঠি</title>
     <style>
-        /* General Reset */
+        /* Global Styles */
         * {
             margin: 0;
             padding: 0;
@@ -14,156 +14,258 @@
 
         body {
             font-family: 'Georgia', serif;
-            background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
+            background-color: #f8f8f8;
             display: flex;
-            align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            overflow-y: hidden;
-        }
-
-        /* Letter Box Styling */
-        .letter-box {
-            position: relative;
-            width: 90%;
-            max-width: 400px;
-            background: #fff;
-            border: 2px solid #ff6f91;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            align-items: center;
+            height: 100vh;
             overflow: hidden;
-            transition: transform 0.5s ease, box-shadow 0.3s ease;
-            cursor: pointer;
+            padding: 0 10px;
         }
 
-        .letter-box:hover {
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Love Tape Styling */
-        .love-tape {
-            position: absolute;
-            width: 70px;
-            height: 30px;
-            background: #ff6f91;
-            border-radius: 5px;
-            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
-            transform: rotate(-15deg);
+        /* Full Page Envelope */
+        .envelope-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-family: 'Georgia', serif;
-            font-size: 0.9rem;
-            color: white;
-            font-weight: bold;
-            text-transform: uppercase;
+            align-items: center;
+            background: #fce4d6;
+            transition: background-color 0.6s ease;
+            z-index: 100;
+            overflow: hidden;
         }
 
-        .love-tape:nth-child(1) {
-            top: -15px;
-            left: 20%;
+        .envelope {
+            position: relative;
+            width: 450px;
+            height: 280px;
+            background-color: #fff;
+            border: 2px solid #f7b7a3;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            cursor: pointer;
+            transform: rotate(0deg);
+            transition: all 1s ease;
         }
 
-        .love-tape:nth-child(2) {
-            top: -15px;
-            right: 20%;
-            transform: rotate(15deg);
-        }
-
-        .love-tape span {
-            z-index: 2;
-        }
-
-        /* Letter Content Styling */
-        .letter-content {
+        /* Envelope Flap */
+        .envelope .flap {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #fff;
-            border-radius: 20px;
-            transform: translateY(100%);
-            padding: 20px;
-            text-align: center;
-            font-size: 1.2rem;
-            color: #333;
-            overflow-y: auto;
-            transition: transform 0.5s ease-in-out;
+            background: linear-gradient(to right, #ff6f91, #ff9a8b);
+            transform-origin: top;
+            transition: transform 1s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .letter-content h2 {
+        /* Envelope Fold Lines */
+        .envelope .flap:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 0, 0, 0.1);
+            transform: rotate(-2deg);
+        }
+
+        /* Envelope Corner Details */
+        .envelope .corner-top-left,
+        .envelope .corner-top-right {
+            position: absolute;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background-color: #fff;
+            z-index: 1;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .envelope .corner-top-left {
+            left: 0;
+            border-top-left-radius: 10px;
+        }
+
+        .envelope .corner-top-right {
+            right: 0;
+            border-top-right-radius: 10px;
+        }
+
+        /* Heart Logo */
+        .heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background-color: #ff6f91;
+            clip-path: polygon(50% 0%, 0% 30%, 25% 100%, 50% 85%, 75% 100%, 100% 30%);
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .heart:hover {
+            transform: translate(-50%, -50%) scale(1.2);
+            background-color: #ff9a8b;
+        }
+
+        /* Two Lines Under Heart */
+        .lines {
+            position: absolute;
+            bottom: -20px; /* Position lines under the heart */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .line {
+            width: 40px;
+            height: 3px;
+            background-color: #ff6f91;
+            border-radius: 2px;
+        }
+
+        /* Full Page Letter */
+        .letter {
+            position: absolute;
+            top: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.8;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .letter h2 {
             font-size: 1.8rem;
             color: #ff6f91;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
-        .letter-content p {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            letter-spacing: 0.5px;
-            color: #555;
-            text-align: justify;
+        .letter p {
+            font-size: 1.1rem;
         }
 
-        /* Opened State */
-        .letter-box.opened {
-            transform: translateY(-10px);
+        /* Open Envelope Animation */
+        .envelope.opened .flap {
+            transform: rotateX(180deg);
         }
 
-        .letter-box.opened .letter-content {
-            transform: translateY(0);
+        .envelope.opened ~ .letter {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-150%);
         }
 
-        /* Scroll Indicator */
-        .letter-content::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .letter-content::-webkit-scrollbar-thumb {
+        /* Close Envelope and Page */
+        .close-button {
+            position: absolute;
+            top: 30px;
+            right: 30px;
             background: #ff6f91;
-            border-radius: 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1rem;
         }
 
-        .letter-content::-webkit-scrollbar-track {
-            background: #f0f0f0;
+        .close-button:hover {
+            background: #ff8b92;
         }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            .envelope {
+                width: 80%;
+                height: 200px;
+            }
+
+            .heart {
+                width: 50px;
+                height: 50px;
+            }
+
+            .letter {
+                width: 80%;
+                max-width: 350px;
+            }
+        }
+
     </style>
 </head>
 <body>
-    <!-- Letter Box -->
-    <div class="letter-box" id="letterBox">
-        <!-- Love Tape -->
-        <div class="love-tape"><span>❤️</span></div>
-        <div class="love-tape"><span>LOVE</span></div>
 
-        <!-- Hidden Letter Content -->
-        <div class="letter-content">
+    <div class="envelope-container">
+        <!-- Envelope Structure -->
+        <div class="envelope">
+            <div class="flap"></div>
+            <div class="corner-top-left"></div>
+            <div class="corner-top-right"></div>
+            <div class="heart" id="heart"></div>
+            <!-- Two lines under the heart -->
+            <div class="lines">
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </div>
+
+        <!-- Letter Content -->
+        <div class="letter" id="letter">
             <h2>তোমার জন্য একটি চিঠি</h2>
             <p>
                 প্রিয়তমা,<br><br>
-                যখন রাত নেমে আসে, চাঁদের মিষ্টি আলোয় তোমার মুখখানি ভেসে ওঠে।<br>
-                আমার হৃদয় প্রতিদিন তোমার জন্য অপেক্ষা করে।<br><br>
-                দূরত্ব যতই থাকুক না কেন, তোমার প্রতি আমার ভালোবাসা কোনোদিনও কমবে না।<br>
-                তুমি আমার জীবনের সব কিছু।<br><br>
-                প্রতিটি শব্দ তোমার মনের গভীরে পৌঁছাক।<br>
-                এই চিঠি তোমার প্রতি আমার অন্তহীন ভালোবাসার প্রকাশ।<br><br>
-                ভালো থেকো, কারণ তোমার হাসিই আমার পৃথিবী।<br><br>
-                চিরকাল তোমার,<br>
+                তোমার প্রেমে আমি অস্থির, তোমার মিষ্টি হাসি আমার জীবনের সবটুকু আলো।<br>
+                আমি চিরকাল তোমার সাথে থাকতে চাই, আমরা একসাথে এই পৃথিবীর অমূল্য রত্ন।<br><br>
+                এই চিঠি তোমার জন্য, যা আমার হৃদয়ের প্রতিটি কণায় লেখা।<br><br>
+                তোমার জন্য,<br><br>
                 জয় ❤️
             </p>
+            <button class="close-button" onclick="closeEnvelope()">Close</button>
         </div>
     </div>
 
     <script>
-        // Function to open the letter
-        function openLetter() {
-            const letterBox = document.getElementById('letterBox');
-            letterBox.classList.toggle('opened');
-        }
+        const heart = document.getElementById('heart');
+        const envelope = document.querySelector('.envelope');
+        const letter = document.getElementById('letter');
 
-        // Attach the event listener
-        document.getElementById('letterBox').addEventListener('click', openLetter);
+        // Open the envelope when the heart is clicked
+        heart.addEventListener('click', () => {
+            envelope.classList.add('opened');
+        });
+
+        // Close the envelope and return to the original state
+        function closeEnvelope() {
+            envelope.classList.remove('opened');
+            letter.style.opacity = '0';
+            letter.style.transform = 'translateX(-50%) translateY(110%)';
+        }
     </script>
 </body>
 </html>
